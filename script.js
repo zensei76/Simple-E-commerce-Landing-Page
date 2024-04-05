@@ -1,60 +1,73 @@
-const form = document.getElementById("registrationForm");
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const productsSection = document.getElementById("productsSection");
+  let products = []; // Define products as a global variable
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
+  // Function to fetch products from the API
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("https://fakestoreapi.com/products");
+      products = await response.json(); // Assign fetched products to the global variable
+      displayProducts(products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
-  if (!name || !email || !password || !confirmPassword) {
-    alert("Please fill in all fields.");
-    return;
-  }
+  // Function to display products on the page
+  const displayProducts = (products) => {
+    productsSection.innerHTML = "";
+    products.forEach((product) => {
+      const article = document.createElement("article");
+      article.classList.add("product");
+      article.innerHTML = `
+        <img src="${product.image}" alt="${product.title}">
+        <h2>${product.title}</h2>
+        <h5>Catagory : ${product.category}<h5>
+        <p>${product.description}</p>
+        <p ><span>Rating: ${product.rating.rate}<span>      Count :<span>${product.rating.count}<span><p>
+      <p>$${product.price}<p>
+        <div class="actions">
+          <button class="btn btn-success">Add to Cart</button>
+          <button class="btn btn-secondary">Add to Wishlist</button>
+        </div>
+        `;
+      productsSection.appendChild(article);
+    });
+  };
 
-  if (
-    name === 
-    name.includes("0") ||
-    name.includes("1") ||
-    name.includes("2") ||
-    name.includes("3") ||
-    name.includes("4") ||
-    name.includes("5") ||
-    name.includes("6") ||
-    name.includes("7") ||
-    name.includes("8") ||
-    name.includes("9")
-  ) {
-    alert("Please enter your name properly.");
-    return;
-  }
+  // Initial fetch of products when the page loads
+  fetchProducts();
 
-  if (!isValidEmail(email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
+  // Function to filter products based on search query
+  const filterProducts = (query) => {
+    const filteredProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+    displayProducts(filteredProducts);
+  };
 
-  if (password.length < 6) {
-    alert("Password must be at least 6 characters long");
-    return;
-  }
+  // Event listener for search button click
+  searchButton.addEventListener("click", () => {
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm !== "") {
+      filterProducts(searchTerm);
+    } else {
+      fetchProducts();
+    }
+  });
 
-  if (!/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
-    alert("Password must contain both letters and numbers");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match.");
-    return;
-  }
-
-  alert("Registration successful!");
-  form.reset();
+  // Event listener for pressing Enter key in search input
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm !== "") {
+        filterProducts(searchTerm);
+      } else {
+        fetchProducts();
+      }
+    }
+  });
 });
-
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
