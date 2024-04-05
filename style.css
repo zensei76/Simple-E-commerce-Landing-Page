@@ -2,36 +2,103 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-header {
+  }
+  
+  header {
     background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
-}
-
-nav {
+  }
+  
+  nav {
     background-color: #444;
     color: #fff;
     padding: 10px;
     text-align: center;
-}
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
 
-section {
+  }
+  
+  
+  a{
+    color: white;
+    text-decoration: none;
+  }
+
+  section.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .product {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin: 10px;
     padding: 20px;
     text-align: center;
-}
-
-footer {
+    max-width: 300px;
+  }
+  
+  .product img {
+    max-width: 100%;
+  }
+  
+  .actions {
+    margin-top: 20px;
+  }
+  
+  footer {
     background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
-}
-
-@media screen and (max-width: 768px) {
-    .row-cols-md-3 {
-      flex-direction: column;
-    }
   }
+  
+
+  /* For Registration Form  */
+  .regisstration {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
